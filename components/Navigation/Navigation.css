@@ -1,0 +1,22 @@
+.Navbar {
+  display: flex;
+
+  border: red solid 1px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 50px;
+  background-color: rgba(255, 247, 237, 1);
+  width: auto;
+}
+
+.NavItems {
+  display: flex;
+  border: solid 1px blue;
+  position: relative;
+  width: 110px;
+  justify-content: space-between;
+}
+
+.NavItem {
+  text-decoration: none;
+}

@@ -1,0 +1,13 @@
+.image-background {
+  border: rebeccapurple solid 1px;
+
+  background-image: url("../../assets/Home-background.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
