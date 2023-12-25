@@ -1,9 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-module.exports = nextConfig;
-
-module.exports = {
+const nextConfig = {
   async rewrites() {
     return [
       {
@@ -11,5 +7,20 @@ module.exports = {
         destination: "/",
       },
     ];
+  },
+};
+
+module.exports = {
+  ...nextConfig,
+  images: {
+    //domains: ["assets.scrimba.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "assets.scrimba.com",
+        port: "", // Empty string means any port
+        pathname: "/**", // '**' allows any subpath
+      },
+    ],
   },
 };
