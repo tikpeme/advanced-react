@@ -1,5 +1,5 @@
 .Van-section {
-  padding: 40px 26.91px 83.23px 26.91px;
+  padding: 40px 26.91px 0px 26.91px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,12 +29,16 @@
   margin-bottom: 55.69px;
 }
 .van-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  gap: 34px;
 }
 .van-element {
-  width: 230px;
-
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  padding-bottom: 26.91px;
 }
 
 .van-details {
@@ -117,6 +121,8 @@
 .button-van-type.Simple,
 .button-van-type.Luxury,
 .button-van-type.Rugged {
+  cursor: pointer;
+
   background-color: #ffead0;
   border: 3px solid;
   border-color: transparent;
@@ -136,7 +142,6 @@
   font-weight: 500;
   letter-spacing: 0;
   line-height: 23.9px;
-  top: 5px;
   white-space: nowrap;
   transition: background-color 0.3s ease; /* Smooth transition for background color */
 }
@@ -175,4 +180,19 @@
 .van-picture {
   border-radius: 5px;
   height: auto;
+}
+
+.clear-filter {
+  color: #4d4d4d;
+  font-family: "Inter-Medium", Helvetica;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 23.9px;
+  text-decoration: underline;
+
+  white-space: nowrap;
+  align-self: end;
+  padding-left: 20px;
+  cursor: pointer;
 }

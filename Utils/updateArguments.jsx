@@ -17,8 +17,6 @@ const updateArguments = (newArgument, argumentArray, setArgumentArray) => {
 
   //Update the Argument Array
   setArgumentArray(newArray);
-
-  //console.log("This is the new argumentArray: " + argumentArray);
 };
 
 export default updateArguments;

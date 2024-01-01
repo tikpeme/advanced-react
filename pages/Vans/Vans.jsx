@@ -3,7 +3,11 @@ import Image from "next/image";
 
 import "./Vans.css";
 import VansIntroduction from "./VansIntroduction";
-import filterArray from "../../Utils/filterArray";
+import VansSection from "./VansSection";
+import VansDisplay from "./VansDisplay";
+import VansElement from "./VansElement";
+import { Link } from "react-router-dom";
+import { getVans } from "../../Api/api";
 
 const VansContext = createContext();
 
@@ -11,30 +15,32 @@ const Vans = () => {
   const [VansData, setVansData] = useState([]); //For vans data, not to be changed after initialization.
   const [argumentArray, setArgumentArray] = useState([]); //For argument array, for filtering
   const [workingVansData, setWorkingVansData] = useState([]); //Array usded to display data. To be updated based on arguments array
+  const [loading, setLoading] = useState(false); //
+
+  const [error, setError] = useState(null);
 
   //Run at the beginning to initialize VansData
-  useEffect(() => {
-    const fetchVansData = async () => {
+  React.useEffect(() => {
+    async function loadVans() {
+      setLoading(true);
       try {
-        const response = await fetch("/api/vans");
-        //console.log(response);
-
-        const data = await response.json();
-
-        setVansData(data.vans);
-        setWorkingVansData(data.vans);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+        const data = await getVans();
+        setVansData(data);
+        setWorkingVansData(data);
+      } catch (err) {
+        setError(err);
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
-    };
+    }
 
-    fetchVansData();
-
-    return () => {
-      setVansData(null);
-      console.log("Cleanup completed");
-    };
+    loadVans();
   }, []);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <VansContext.Provider
@@ -46,43 +52,46 @@ const Vans = () => {
         setWorkingVansData,
       }}
     >
-      <section className="Van-section">
+      <VansSection className="Van-section">
         <VansIntroduction></VansIntroduction>
-        <div className="van-display">
+        <VansDisplay className="van-display">
           {workingVansData?.map((van) => (
-            <div className="van-element" key={van.id}>
-              <Image
-                className="van-picture"
-                src={van.imageUrl}
-                width={229.23}
-                height={0}
-                priority={true}
-                style={{
-                  height: "auto",
-                }}
-                alt={van.description}
-              />
-              <div className="van-details">
-                <div className="van-details-subgroup">
-                  <div className="van-name"> {van.name}</div>
-                  <div
-                    className={`van-type ${
-                      van.type[0].toUpperCase() + van.type.slice(1)
-                    } `}
-                  >
-                    {" "}
-                    {van.type[0].toUpperCase() + van.type.slice(1)}
+            <Link to={`/vans/${van.id}`} style={{ textDecoration: "none" }}>
+              <VansElement className="van-element" key={van.id}>
+                <Image
+                  className="van-picture"
+                  src={van.imageUrl}
+                  layout="responsive"
+                  width={229.23}
+                  height={0}
+                  priority={true}
+                  style={{
+                    height: "auto",
+                  }}
+                  alt={van.description}
+                />
+                <div className="van-details">
+                  <div className="van-details-subgroup">
+                    <div className="van-name"> {van.name}</div>
+                    <div
+                      className={`van-type ${
+                        van.type[0].toUpperCase() + van.type.slice(1)
+                      } `}
+                    >
+                      {" "}
+                      {van.type[0].toUpperCase() + van.type.slice(1)}
+                    </div>
+                  </div>
+                  <div className="van-price-rate">
+                    <div className="van-price">${van.price}</div>
+                    <div className="van-price-time"> /day</div>
                   </div>
                 </div>
-                <div className="van-price-rate">
-                  <div className="van-price">${van.price}</div>
-                  <div className="van-price-time"> /day</div>
-                </div>
-              </div>
-            </div>
+              </VansElement>
+            </Link>
           ))}
-        </div>
-      </section>
+        </VansDisplay>
+      </VansSection>
     </VansContext.Provider>
   );
 };
